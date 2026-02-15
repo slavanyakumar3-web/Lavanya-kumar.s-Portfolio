@@ -1,31 +1,637 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lavanya Kumar | Data Analyst Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* slate-900 */
-            color: #f1f5f9; /* slate-100 */
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Utilities --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .text-gradient {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--border);
+            color: var(--text-light);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* --- Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* --- About Section --- */
+        #about {
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .about-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* --- Skills Section --- */
+        #skills {
+            background-color: rgba(30, 41, 59, 0.3);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 4px;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* --- Projects Section --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-img {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-muted);
+            border-radius: 1rem;
+            font-weight: 600;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-content p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* --- Certificates Section --- */
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cert-card {
+            padding: 1.5rem;
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            text-align: center;
+        }
+
+        .cert-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Contact Section --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            color: var(--primary);
+        }
+
+        .contact-form {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            color: white;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 968px) {
+            .about-content, .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .about-text h1 {
+                font-size: 2.8rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 <script type="importmap">
 {
   "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
 </head>
 <body>
-    <div id="root"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo text-gradient">Lavanya.</a>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#certs">Certificates</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Hire Me</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="about-content reveal">
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&h=750&auto=format&fit=crop" alt="Lavanya Kumar">
+                    </div>
+                    <div class="about-text">
+                        <span class="badge">Aspiring Data Analyst</span>
+                        <h1>Hi, I'm <span class="text-gradient">Lavanya Kumar</span></h1>
+                        <p>I am a motivated B.Sc Computer Science & Data Analytics student passionate about uncovering insights within data. Based in Tamil Nadu, India, I specialize in transforming complex datasets into actionable business strategies using Python, SQL, and Machine Learning.</p>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="#projects" class="btn btn-primary">View Portfolio</a>
+                            <a href="https://github.com" target="_blank" class="btn btn-outline">GitHub Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Technical Skills</h2>
+                    <p style="color: var(--text-muted);">Expertise gained through academic projects and certifications.</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-info"><span>Python</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info"><span>SQL</span><span>85%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 85%;"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info"><span>Excel</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info"><span>Power BI</span><span>80%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info"><span>Tableau</span><span>75%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 75%;"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-info"><span>Machine Learning</span><span>70%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" style="width: 70%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Featured Projects</h2>
+                    <p style="color: var(--text-muted);">A showcase of my analytical work and problem-solving skills.</p>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card reveal">
+                        <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop');"></div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Matplotlib</span>
+                                <span class="tag">Pandas</span>
+                            </div>
+                            <h3>Sales Data Analysis</h3>
+                            <p>Analyzed large retail datasets to identify peak sales trends and customer behavior. Created interactive visualizations to support business decision-making processes.</p>
+                            <a href="#" class="btn btn-outline" style="padding: 0.5rem 1.2rem; font-size: 0.8rem;">Case Study</a>
+                        </div>
+                    </div>
+                    <div class="project-card reveal" style="animation-delay: 0.2s;">
+                        <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=800&auto=format&fit=crop');"></div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">ML</span>
+                                <span class="tag">Scikit-learn</span>
+                                <span class="tag">Data Analysis</span>
+                            </div>
+                            <h3>Student Performance Prediction</h3>
+                            <p>Built a classification model to predict student outcomes based on socio-economic and academic factors. Achieved 85%+ accuracy using ensemble methods.</p>
+                            <a href="#" class="btn btn-outline" style="padding: 0.5rem 1.2rem; font-size: 0.8rem;">Case Study</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificates Section -->
+        <section id="certs" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Certifications</h2>
+                </div>
+                <div class="certs-grid">
+                    <div class="cert-card">
+                        <h4>Data Analytics Certification</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Professional Proficiency</p>
+                    </div>
+                    <div class="cert-card">
+                        <h4>Python Certification</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Advanced Programming</p>
+                    </div>
+                    <div class="cert-card">
+                        <h4>SQL Fundamentals</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Database Management</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="contact-container reveal">
+                    <div class="contact-info">
+                        <h3>Let's Connect</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">I'm currently looking for new opportunities as a Junior Data Analyst. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+                        
+                        <div class="contact-item">
+                            <div class="icon-box">📧</div>
+                            <div>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">Email</p>
+                                <p>lavanya.kumar@example.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="icon-box">📍</div>
+                            <div>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">Location</p>
+                                <p>Tamil Nadu, India</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea rows="5" placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Lavanya Kumar. All Rights Reserved.</p>
+            <p style="font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.5;">Designed with Precision & Data</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+        // Form submission handling (Prevent default)
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for reaching out! This is a demo portfolio.');
+        });
+    </script>
 </body>
 </html>
